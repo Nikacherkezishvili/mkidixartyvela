@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <title>სიყვარულის გვერდი</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #e6e9f0, #eef1f5);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #357ABD;
+    }
+
+    .love-message {
+      font-size: 32px;
+      font-weight: bold;
+      display: none;
+      animation: popIn 1.2s ease forwards, colorCycle 5s infinite;
+      color: #444;
+    }
+
+    .sike-message {
+      position: absolute;
+      font-size: 40px;
+      font-weight: bold;
+      display: none;
+      opacity: 0;
+      top: 10%;
+      left: 10%;
+      animation: moveAround 5s infinite linear, sikeColor 4s infinite alternate;
+      color: #333;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8) translateY(40px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes colorCycle {
+      0% { color: #4a4a4a; text-shadow: 0 0 5px #bbb; }
+      50% { color: #333; text-shadow: 0 0 10px #ddd; }
+      100% { color: #4a4a4a; text-shadow: 0 0 5px #bbb; }
+    }
+
+    @keyframes sikeColor {
+      0% { color: #556270; text-shadow: 0 0 10px #c7d0d9; }
+      25% { color: #4ecdc4; text-shadow: 0 0 10px #d6f5f2; }
+      50% { color: #c7f464; text-shadow: 0 0 10px #f2fbd1; }
+      75% { color: #ff6b6b; text-shadow: 0 0 10px #ffe3e3; }
+      100% { color: #556270; text-shadow: 0 0 10px #c7d0d9; }
+    }
+
+    @keyframes moveAround {
+      0% { top: 10%; left: 10%; transform: rotate(0deg); }
+      25% { top: 10%; left: 80%; transform: rotate(10deg); }
+      50% { top: 80%; left: 80%; transform: rotate(-10deg); }
+      75% { top: 80%; left: 10%; transform: rotate(5deg); }
+      100% { top: 10%; left: 10%; transform: rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- შესატანი ველები -->
+  <div class="container" id="formPage">
+    <h2>შეიყვანე შენი სახელი და გვარი</h2>
+    <input type="text" id="firstName" placeholder="სახელი" />
+    <input type="text" id="lastName" placeholder="გვარი" />
+    <br />
+    <button onclick="showLoveMessage()">გაგზავნა</button>
+  </div>
+
+  <!-- Love ტექსტი -->
+  <div class="container" id="lovePage" style="display: none;">
+    <div class="love-message" id="loveMessage"></div>
+  </div>
+
+  <!-- SIKE ტექსტი -->
+  <div class="sike-message" id="sikeMessage"></div>
+
+  <!-- JS ლოგიკა -->
+  <script>
+    function showLoveMessage() {
+      const name = document.getElementById('firstName').value.trim();
+      const surname = document.getElementById('lastName').value.trim();
+
+      if (name === '' || surname === '') {
+        alert('გთხოვ შეიყვანე ორივე ველი');
+        return;
+      }
+
+      const fullName = `${name} ${surname}`;
+      const loveEl = document.getElementById('loveMessage');
+      const sikeEl = document.getElementById('sikeMessage');
+
+      // LOVE ტექსტი
+      loveEl.textContent = `${fullName}, I love you ❤️`;
+      document.getElementById('formPage').style.display = 'none';
+      loveEl.style.display = 'block';
+      document.getElementById('lovePage').style.display = 'block';
+
+      // 10 წამში Love ქრება და SIKE ჩნდება
+      setTimeout(() => {
+        loveEl.style.display = 'none';
+
+        sikeEl.innerHTML = `SIKE, მკიდიხართ ყველა...<br>მითუმეტეს შენ, <strong>${name}</strong> 😎`;
+        sikeEl.style.display = 'block';
+        sikeEl.style.opacity = '1';
+      }, 10000);
+    }
+  </script>
+</body>
+</html>
